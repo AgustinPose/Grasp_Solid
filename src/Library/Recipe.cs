@@ -29,7 +29,6 @@ namespace Full_GRASP_And_SOLID.Library
             }
         }
 
-        // SRP:
         // La clase Recipe cumple con el principio SRP al tener una única razón para cambiar,
         // que es calcular el costo total de producción. Esta responsabilidad está encapsulada
         // en el método CalcularCostoProduccion(), lo que facilita el mantenimiento y la
@@ -43,7 +42,7 @@ namespace Full_GRASP_And_SOLID.Library
                 double costoInsumos = step.Quantity * step.Input.UnitCost;
                 costoTotal += costoInsumos;
 
-                double costoEquipamiento = (step.Time / 60) * step.Equipment.HourlyCost;
+                double costoEquipamiento = step.Time / 60 * step.Equipment.HourlyCost;
                 costoTotal += costoEquipamiento;
             }
 
