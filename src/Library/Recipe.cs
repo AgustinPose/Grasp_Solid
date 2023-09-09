@@ -1,9 +1,3 @@
-//-------------------------------------------------------------------------
-// <copyright file="Recipe.cs" company="Universidad Católica del Uruguay">
-// Copyright (c) Programación II. Derechos reservados.
-// </copyright>
-//-------------------------------------------------------------------------
-
 using System;
 using System.Collections;
 
@@ -34,5 +28,39 @@ namespace Full_GRASP_And_SOLID.Library
                     $"usando '{step.Equipment.Description}' durante {step.Time}");
             }
         }
+
+        // SRP:
+        // La clase Recipe cumple con el principio SRP al tener una única razón para cambiar,
+        // que es calcular el costo total de producción. Esta responsabilidad está encapsulada
+        // en el método CalcularCostoProduccion(), lo que facilita el mantenimiento y la
+        // comprensión del código al separar esta funcionalidad específica en su propia función.
+        public double CalcularCostoProduccion()
+        {
+            double costoTotal = 0;
+
+            foreach (Step step in this.steps)
+            {
+                double costoInsumos = step.Quantity * step.Input.UnitCost;
+                costoTotal += costoInsumos;
+
+                double costoEquipamiento = (step.Time / 60) * step.Equipment.HourlyCost;
+                costoTotal += costoEquipamiento;
+            }
+
+            return costoTotal;
+        }
+
+        public void ImprimirReceta()
+        {
+            Console.WriteLine($"Receta de {this.FinalProduct.Description}:");
+            foreach (Step paso in this.steps)
+            {
+                Console.WriteLine($" {paso.Quantity} de '{paso.Input.Description}' " +
+                    $"usando '{paso.Equipment.Description}' durante {paso.Time} segundos");
+            }
+
+            double costoProduccion = CalcularCostoProduccion();
+        }
+
     }
 }
